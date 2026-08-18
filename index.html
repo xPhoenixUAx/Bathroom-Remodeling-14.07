@@ -10,7 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/bundle.css?v=20260818al">
+  <link rel="stylesheet" href="css/bundle.css?v=20260819j">
+  <link rel="stylesheet" href="css/animations.css?v=20260818d">
 </head>
 <body class="home-page">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -23,8 +24,8 @@
         <h1 id="home-title" data-reveal data-reveal-delay="120">Find the right path.<br><span class="muted-word">Meet the right pro.</span></h1>
         <p class="hero__lede" data-reveal data-reveal-delay="240">Explore practical remodeling options, understand what the work can involve, and request introductions to independent local bathroom professionals.</p>
         <div class="hero__actions" data-reveal data-reveal-delay="340">
-          <a class="btn btn--light" href="#contact" data-cta-primary></a>
-          <a class="btn btn--outline" style="border-color:#fff;color:#fff" href="#services" data-cta-secondary></a>
+          <a class="btn btn--light" href="#contact"><span data-cta-primary></span><span class="btn__icon" aria-hidden="true"><i>↗</i></span></a>
+          <a class="btn btn--outline" href="#services"><span data-cta-secondary></span><span class="btn__icon" aria-hidden="true"><i>↗</i></span></a>
         </div>
       </div>
       <div class="hero__rail" data-reveal data-reveal-delay="440">
@@ -108,9 +109,8 @@
           </article>
 
           <aside class="services-showcase__cta" data-reveal data-reveal-delay="260">
-            <span class="services-showcase__ornament" aria-hidden="true"><i></i><i></i><i></i></span>
             <p>Not sure which guide fits? Describe the room, the problem, and the outcome you want.</p>
-            <a class="services-showcase__button" href="#contact"><span>Describe your project</span><span aria-hidden="true">↗</span></a>
+            <a class="services-showcase__button" href="#contact"><span>Describe your project</span><span aria-hidden="true"><i>↗</i></span></a>
           </aside>
         </div>
       </div>
@@ -121,7 +121,7 @@
         <div class="feature-story__copy" data-reveal="left">
           <h2>A complete remodel works best when every decision works together.</h2>
           <p class="text-muted">Layout, waterproofing, storage, lighting, surfaces, fixtures, ventilation, and schedule all affect one another. See the questions that bring those pieces into one coordinated scope.</p>
-          <a class="btn" href="complete-bathroom-remodel.html">Explore complete remodels</a>
+          <a class="btn" href="complete-bathroom-remodel.html"><span>Explore complete remodels</span><span class="btn__icon" aria-hidden="true"><i>↗</i></span></a>
         </div>
         <div class="feature-story__media" data-reveal="right">
           <img src="img/generated/home-story.webp" alt="A thoughtfully remodeled bathroom with natural stone and warm wood details" width="1400" height="1100" loading="lazy">
@@ -260,25 +260,28 @@
         </aside>
         <div class="lead-form-wrap" data-reveal="right">
           <h2>Start with a few details.</h2><p>Your information helps us understand the request and may be shared with independent providers whose services and location appear relevant.</p>
-          <form class="lead-form" id="project-form" data-lead-form novalidate>
+          <form class="lead-form" id="project-form" data-lead-form action="handler.php" method="post" novalidate>
             <div class="sr-only" aria-hidden="true"><label for="company-website">Leave this field blank</label><input id="company-website" name="_honey" type="text" tabindex="-1" autocomplete="off"></div>
             <div class="field"><label for="name">Name <span aria-hidden="true">*</span></label><input id="name" name="name" type="text" autocomplete="name" required><p class="field-error" data-error-for="name"></p></div>
             <div class="field"><label for="email">Email <span aria-hidden="true">*</span></label><input id="email" name="email" type="email" autocomplete="email" required><p class="field-error" data-error-for="email"></p></div>
             <div class="field field--full"><label for="service">Service of interest <span aria-hidden="true">*</span></label><select id="service" name="service" data-service-select required><option value="">Select a service</option><option value="complete-bathroom-remodel">Complete Bathroom Remodel</option><option value="shower-bathtub-remodeling">Shower &amp; Bathtub Remodeling</option></select><p class="field-error" data-error-for="service"></p></div>
             <div class="field field--full"><label for="message">Project details <span aria-hidden="true">*</span></label><textarea id="message" name="message" required placeholder="What is not working today? What result are you hoping for? Is there a timeline you have in mind?"></textarea><p class="field-error" data-error-for="message"></p></div>
             <div class="field field--full"><label class="consent-label"><input name="consent" type="checkbox" required><span>By submitting, I agree that <span data-company-brand-name></span> and relevant independent providers may email me about this request. Consent is not a condition of purchase.</span></label><p class="field-error" data-error-for="consent"></p></div>
-            <div class="form-actions"><p class="form-note">Review our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Service</a>. Submitting does not obligate you to hire or purchase.</p><button class="btn" type="submit">Send my request</button></div>
+            <div class="form-actions"><p class="form-note">Review our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Service</a>. Submitting does not obligate you to hire or purchase.</p><button class="btn" type="submit"><span data-submit-label>Send my request</span><span class="btn__icon" aria-hidden="true"><i>↗</i></span></button></div>
           </form>
         </div>
       </div>
     </section>
   </main>
 
-  <div class="success-modal" data-success-modal aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="success-title"><div class="success-modal__dialog"><button class="modal-close" type="button" data-modal-close aria-label="Close confirmation"><i data-lucide="x" aria-hidden="true"></i></button><div class="success-modal__icon"><i data-lucide="check" aria-hidden="true"></i></div><h2 id="success-title" data-success-title></h2><p data-success-message></p><button class="btn" type="button" data-modal-close>Back to the site</button></div></div>
+  <div class="success-modal" data-success-modal aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="success-title"><div class="success-modal__dialog"><button class="modal-close" type="button" data-modal-close aria-label="Close confirmation"><i data-lucide="x" aria-hidden="true"></i></button><div class="success-modal__icon"><i data-lucide="check" aria-hidden="true"></i></div><h2 id="success-title" data-success-title></h2><p data-success-message></p><button class="btn" type="button" data-modal-close><span>Back to the site</span><span class="btn__icon" aria-hidden="true"><i>↗</i></span></button></div></div>
 
   <div data-site-footer></div>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.js" defer></script>
-  <script src="js/site-config.js?v=20260818q" defer></script>
-  <script src="js/main.js?v=20260818q" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+  <script src="js/site-config.js?v=20260818r" defer></script>
+  <script src="js/main.js?v=20260819c" defer></script>
+  <script src="js/animations.js?v=20260819c" defer></script>
 </body>
 </html>

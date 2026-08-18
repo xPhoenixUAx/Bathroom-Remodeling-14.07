@@ -16,7 +16,7 @@
   var website = contact.website || "";
   var operatorNames = companyName + (companyLegalName !== companyName ? " and " + companyLegalName : "");
   var siteSettings = {
-    formEndpoint: contactEmail ? "https://formsubmit.co/ajax/" + contactEmail : "",
+    formEndpoint: "handler.php",
     privacyRequestUrl: "index.html#contact",
     doNotSellShareUrl: "cookie-policy.html#7-consent-and-preference-controls",
     providerListUrl: "privacy.html#7-how-we-disclose-personal-information",
@@ -141,7 +141,7 @@
       '<nav class="desktop-nav" aria-label="Primary navigation">',
       '<a class="nav-link' + (isCurrent("home") ? " is-current" : "") + '" href="index.html" data-nav-section="home">Home</a>',
       '<div class="nav-dropdown-wrap">',
-      '<button class="nav-trigger' + (isCurrent("services") ? " is-current" : "") + '" type="button" aria-expanded="false" aria-controls="services-mega" data-nav-section="services">Services <i data-lucide="chevron-down" aria-hidden="true"></i></button>',
+      '<a class="nav-trigger' + (isCurrent("services") ? " is-current" : "") + '" href="' + (isCurrent("home") ? "#services" : "index.html#services") + '" aria-haspopup="true" aria-expanded="false" aria-controls="services-mega" data-nav-section="services">Services <i data-lucide="chevron-down" aria-hidden="true"></i></a>',
       '<div class="services-mega" id="services-mega">',
       '<div class="services-mega__top"><strong>Choose a project guide</strong><a class="icon-link" href="index.html#services">Service overview <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div>',
       '<div class="services-mega__grid">' + groupedServicesMarkup("desktop") + "</div>",
@@ -181,11 +181,7 @@
       '<p class="footer-brand__secondary" data-footer-text-secondary></p>',
       '<p class="footer-brand__note" data-disclaimer-short></p>',
       '<a class="icon-link" href="index.html#contact">Start your request <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>',
-      '<div class="footer-socials" aria-label="Social links">',
-      '<a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><i data-lucide="facebook" aria-hidden="true"></i></a>',
-      '<a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><i data-lucide="instagram" aria-hidden="true"></i></a>',
-      '<a href="https://www.pinterest.com/" target="_blank" rel="noopener" aria-label="Pinterest"><i data-lucide="pin" aria-hidden="true"></i></a>',
-      "</div></div>",
+      "</div>",
       '<div class="footer-col footer-col--services"><h3>Services</h3><ul class="footer-links">',
       featured.map(function (service) {
         return '<li><a href="' + serviceUrl(service.slug) + '">' + escapeHtml(service.title) + "</a></li>";
@@ -384,13 +380,17 @@
     }
 
     if (desktopTrigger && megaMenu) {
+      var desktopDropdown = desktopTrigger.closest(".nav-dropdown-wrap");
       desktopTrigger.addEventListener("click", function () {
-        setMegaMenu(!megaMenu.classList.contains("is-open"));
+        setMegaMenu(false);
       });
+      desktopDropdown.addEventListener("mouseenter", function () { setMegaMenu(true); });
+      desktopDropdown.addEventListener("mouseleave", function () { setMegaMenu(false); });
+      desktopDropdown.addEventListener("focusin", function () { setMegaMenu(true); });
       document.addEventListener("click", function (event) {
         if (!event.target.closest(".nav-dropdown-wrap")) setMegaMenu(false);
       });
-      desktopTrigger.closest(".nav-dropdown-wrap").addEventListener("focusout", function () {
+      desktopDropdown.addEventListener("focusout", function () {
         window.setTimeout(function () {
           if (!document.activeElement.closest || !document.activeElement.closest(".nav-dropdown-wrap")) setMegaMenu(false);
         }, 0);
@@ -439,20 +439,32 @@
   function initializeReveal() {
     var elements = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
     if (!elements.length) return;
-    if (!("IntersectionObserver" in window)) {
-      elements.forEach(function (element) { element.classList.add("is-visible"); });
-      return;
-    }
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        var delay = Number(entry.target.getAttribute("data-reveal-delay") || 0);
-        entry.target.style.transitionDelay = Math.min(delay, 700) + "ms";
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -45px" });
-    elements.forEach(function (element) { observer.observe(element); });
+
+    window.setTimeout(function () {
+      if (window.gsap && window.ScrollTrigger) {
+        elements.forEach(function (element) {
+          element.classList.add("is-visible");
+          element.style.transitionDelay = "";
+        });
+        return;
+      }
+
+      if (!("IntersectionObserver" in window)) {
+        elements.forEach(function (element) { element.classList.add("is-visible"); });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var delay = Number(entry.target.getAttribute("data-reveal-delay") || 0);
+          entry.target.style.transitionDelay = Math.min(delay, 700) + "ms";
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -45px" });
+      elements.forEach(function (element) { observer.observe(element); });
+    }, 0);
   }
 
   function initializeCounters() {
@@ -637,25 +649,25 @@
         }
 
         var submit = form.querySelector('[type="submit"]');
-        var originalLabel = submit ? submit.textContent : "";
+        var submitLabel = submit ? submit.querySelector("[data-submit-label]") : null;
+        var originalLabel = submitLabel ? submitLabel.textContent : submit ? submit.textContent : "";
         if (submit) {
           submit.disabled = true;
-          submit.textContent = siteSettings.formSending;
+          if (submitLabel) submitLabel.textContent = siteSettings.formSending;
+          else submit.textContent = siteSettings.formSending;
         }
         status.textContent = "Sending your request…";
 
         var data = new FormData(form);
-        data.append("_subject", "Bathroom project request — " + companyName);
-        data.append("_template", "table");
-        data.append("_captcha", "false");
-
         window.fetch(endpoint, {
           method: "POST",
           body: data,
           headers: { Accept: "application/json" }
         }).then(function (response) {
           return response.json().catch(function () { return {}; }).then(function (payload) {
-            if (!response.ok || payload.success === false) throw new Error("Submission rejected");
+            if (!response.ok || payload.success === false) {
+              throw new Error(payload.message || "Submission rejected");
+            }
             return payload;
           });
         }).then(function () {
@@ -663,14 +675,17 @@
           status.classList.add("is-success");
           status.textContent = "Request sent successfully.";
           openSuccessModal();
-        }).catch(function () {
+        }).catch(function (error) {
           status.classList.add("is-error");
-          status.textContent = "We could not send the request right now. Please email " + contactEmail + ".";
+          status.textContent = error && error.message && error.message !== "Submission rejected"
+            ? error.message
+            : "We could not send the request right now. Please email " + contactEmail + ".";
           status.focus();
         }).then(function () {
           if (submit) {
             submit.disabled = false;
-            submit.textContent = originalLabel;
+            if (submitLabel) submitLabel.textContent = originalLabel;
+            else submit.textContent = originalLabel;
           }
         });
       });
@@ -691,12 +706,152 @@
         name.textContent = quotes[index].name;
         detail.textContent = quotes[index].detail;
       }
+      function change(nextIndex) {
+        function commit() {
+          index = nextIndex;
+          render();
+        }
+        if (window.RoomwellMotion && typeof window.RoomwellMotion.transitionTestimonial === "function") {
+          window.RoomwellMotion.transitionTestimonial(stage, commit);
+        } else {
+          commit();
+        }
+      }
       var prev = stage.querySelector("[data-testimonial-prev]");
       var next = stage.querySelector("[data-testimonial-next]");
-      if (prev) prev.addEventListener("click", function () { index = (index - 1 + quotes.length) % quotes.length; render(); });
-      if (next) next.addEventListener("click", function () { index = (index + 1) % quotes.length; render(); });
+      if (prev) prev.addEventListener("click", function () { change((index - 1 + quotes.length) % quotes.length); });
+      if (next) next.addEventListener("click", function () { change((index + 1) % quotes.length); });
       render();
     });
+  }
+
+  function initializeProjectAnatomy() {
+    var section = document.querySelector(".project-anatomy");
+    if (!section) return;
+
+    var source = section.querySelector("[data-anatomy-source]");
+    var panel = section.querySelector(".project-anatomy__panel");
+    var phaseField = section.querySelector("[data-anatomy-phase]");
+    var titleField = section.querySelector("[data-anatomy-title]");
+    var textField = section.querySelector("[data-anatomy-text]");
+    var iconField = section.querySelector("[data-anatomy-icon]");
+    var hotspotButtons = Array.prototype.slice.call(section.querySelectorAll(".anatomy-hotspot[data-step]"));
+    if (!source || !panel || !phaseField || !titleField || !textField || !iconField) return;
+
+    var steps = Array.prototype.slice.call(source.querySelectorAll(":scope > li[data-step]")).map(function (item) {
+      var heading = item.querySelector("h3");
+      var body = item.querySelector("p");
+      return {
+        id: Number(item.getAttribute("data-step")),
+        phase: item.getAttribute("data-phase") || "",
+        icon: item.getAttribute("data-icon") || "circle",
+        title: heading ? heading.textContent.trim() : "",
+        text: body ? body.textContent.trim() : ""
+      };
+    }).filter(function (step) { return step.id && step.title && step.text; });
+    if (!steps.length) return;
+
+    var currentStep = steps[0].id;
+    var panelTimeline = null;
+    var panelTimeout = 0;
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var panelTargets = [phaseField, titleField, textField, iconField];
+
+    function findStep(stepId) {
+      return steps.find(function (step) { return step.id === stepId; }) || null;
+    }
+
+    function writePanel(step) {
+      var safeIcon = /^[a-z0-9-]+$/.test(step.icon) ? step.icon : "circle";
+      phaseField.textContent = step.phase;
+      titleField.textContent = step.title;
+      textField.textContent = step.text;
+      iconField.innerHTML = '<i data-lucide="' + safeIcon + '" aria-hidden="true"></i>';
+      initializeIcons();
+    }
+
+    function updatePanel(step, immediate) {
+      window.clearTimeout(panelTimeout);
+      if (panelTimeline) {
+        panelTimeline.kill();
+        panelTimeline = null;
+      }
+
+      if (immediate || reducedMotion) {
+        panel.classList.remove("is-changing");
+        panel.removeAttribute("aria-busy");
+        if (window.gsap) window.gsap.set(panelTargets, { clearProps: "all" });
+        writePanel(step);
+        return;
+      }
+
+      panel.setAttribute("aria-busy", "true");
+      if (window.gsap) {
+        panelTimeline = window.gsap.timeline({
+          onComplete: function () {
+            panel.removeAttribute("aria-busy");
+            panelTimeline = null;
+          }
+        });
+        panelTimeline
+          .to(panelTargets, { y: -8, opacity: 0, duration: 0.16, stagger: 0.018, ease: "power2.in" })
+          .add(function () { writePanel(step); })
+          .fromTo(panelTargets, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.34, stagger: 0.03, ease: "power3.out", clearProps: "transform,opacity" });
+        return;
+      }
+
+      panel.classList.add("is-changing");
+      panelTimeout = window.setTimeout(function () {
+        writePanel(step);
+        panel.classList.remove("is-changing");
+        panel.removeAttribute("aria-busy");
+      }, 170);
+    }
+
+    function setActiveStep(stepId, options) {
+      var step = findStep(stepId);
+      if (!step) return;
+      options = options || {};
+      currentStep = step.id;
+
+      hotspotButtons.forEach(function (button) {
+        var active = Number(button.getAttribute("data-step")) === currentStep;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+
+      updatePanel(step, Boolean(options.immediate));
+    }
+
+    function handleControlKeydown(event) {
+      var nextStep = null;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") nextStep = currentStep === steps.length ? 1 : currentStep + 1;
+      if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextStep = currentStep === 1 ? steps.length : currentStep - 1;
+      if (event.key === "Home") nextStep = 1;
+      if (event.key === "End") nextStep = steps.length;
+      if (nextStep === null) return;
+      event.preventDefault();
+      setActiveStep(nextStep);
+      var nextControl = hotspotButtons.find(function (button) { return Number(button.getAttribute("data-step")) === nextStep; });
+      if (nextControl) nextControl.focus();
+    }
+
+    hotspotButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        setActiveStep(Number(button.getAttribute("data-step")));
+      });
+      button.addEventListener("keydown", handleControlKeydown);
+    });
+
+    source.hidden = true;
+    source.setAttribute("aria-hidden", "true");
+    section.classList.add("is-enhanced");
+    setActiveStep(currentStep, { immediate: true });
+
+    var image = section.querySelector(".project-anatomy__visual img");
+    if (image) image.addEventListener("load", function () {
+      if (window.ScrollTrigger && typeof window.ScrollTrigger.refresh === "function") window.ScrollTrigger.refresh();
+    }, { once: true });
   }
 
   function initializeServiceSelection() {
@@ -722,6 +877,7 @@
     initializeServiceSelection();
     initializeForms();
     initializeTestimonials();
+    initializeProjectAnatomy();
     window.dispatchEvent(new CustomEvent("site:ready"));
   }
 

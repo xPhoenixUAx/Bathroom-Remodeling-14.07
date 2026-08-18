@@ -1,0 +1,105 @@
+:root {
+  --motion-fast: 0.28s;
+  --motion-base: 0.58s;
+  --motion-slow: 0.86s;
+  --motion-cinematic: 1.15s;
+  --ease-out: cubic-bezier(0.2, 0.75, 0.25, 1);
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-material: cubic-bezier(0.16, 1, 0.3, 1);
+  --reveal-y: 34px;
+  --reveal-x: 38px;
+  --stagger-tight: 0.045s;
+  --stagger-base: 0.075s;
+  --stagger-wide: 0.11s;
+}
+
+/* GSAP owns these properties only after the library has initialized. */
+.has-gsap [data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.has-gsap .services-showcase__cta[data-reveal] {
+  transform: translate(var(--cta-x), var(--cta-y));
+}
+
+.has-gsap .hero__media img,
+.has-gsap .page-hero__media img {
+  animation: none;
+}
+
+.motion-line {
+  display: block;
+  overflow: hidden;
+}
+
+.motion-line__inner {
+  display: block;
+}
+
+.has-gsap .matching-process__route path {
+  vector-effect: non-scaling-stroke;
+}
+
+.has-gsap .faq-item::after,
+.has-gsap .aggregator-note::before,
+.has-gsap .site-footer .footer-bottom::before {
+  transform-origin: left center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn,
+  .header-cta,
+  .services-showcase__button,
+  .icon-link {
+    transition: color var(--motion-fast) var(--ease-out),
+      background-color var(--motion-fast) var(--ease-out),
+      border-color var(--motion-fast) var(--ease-out),
+      box-shadow var(--motion-fast) var(--ease-out),
+      transform var(--motion-fast) var(--ease-material);
+  }
+
+  .btn:hover,
+  .header-cta:hover,
+  .services-showcase__button:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn:active,
+  .header-cta:active,
+  .services-showcase__button:active {
+    transform: translateY(0);
+  }
+
+  .btn__icon i,
+  .header-cta__icon svg,
+  .services-showcase__button span:last-child i,
+  .icon-link svg {
+    transition: transform var(--motion-fast) var(--ease-material);
+  }
+
+  .btn:hover .btn__icon i,
+  .header-cta:hover .header-cta__icon svg,
+  .services-showcase__button:hover span:last-child i,
+  .icon-link:hover svg {
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-gsap [data-motion],
+  .has-gsap [data-reveal],
+  .has-gsap .matching-process__route path {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    clip-path: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .has-gsap .services-showcase__cta[data-reveal] {
+    transform: translate(var(--cta-x), var(--cta-y)) !important;
+  }
+}

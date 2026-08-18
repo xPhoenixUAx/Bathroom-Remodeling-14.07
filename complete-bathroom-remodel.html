@@ -10,9 +10,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/bundle.css?v=20260818al">
+  <link rel="stylesheet" href="css/bundle.css?v=20260819j">
+  <link rel="stylesheet" href="css/animations.css?v=20260818d">
 </head>
-<body>
+<body class="complete-remodel-page">
   <a class="skip-link" href="#main">Skip to content</a>
   <div data-site-header></div>
   <main id="main">
@@ -52,40 +53,46 @@
       </div>
     </section>
 
-    <section class="section section--ink">
-      <div class="container">
-        <div class="section-heading"><div><span class="eyebrow eyebrow--accent">Included work</span></div><div><h2>One project, coordinated around the details that matter.</h2><p class="lede" style="color:rgba(255,255,255,.58)">Exact scope varies by room and provider. These are the workstreams commonly discussed when planning this service.</p></div></div>
-        <div class="detail-grid">
-        <article class="detail-card" data-reveal data-reveal-delay="0">
-          <span class="detail-card__icon"><i data-lucide="scan-search" aria-hidden="true"></i></span>
-          <h3>Existing-room assessment</h3>
-          <p>Review the layout, visible conditions, access points, ventilation, lighting, and the location of plumbing and electrical connections.</p>
-        </article>
-        <article class="detail-card" data-reveal data-reveal-delay="90">
-          <span class="detail-card__icon"><i data-lucide="ruler" aria-hidden="true"></i></span>
-          <h3>Coordinated scope</h3>
-          <p>Define demolition, construction, waterproofing, finish work, fixture installation, and the responsibilities of each trade.</p>
-        </article>
-        <article class="detail-card" data-reveal data-reveal-delay="180">
-          <span class="detail-card__icon"><i data-lucide="layers-3" aria-hidden="true"></i></span>
-          <h3>Layout and selection guidance</h3>
-          <p>Compare fixture sizes, storage needs, clearances, surface combinations, and practical alternatives before ordering.</p>
-        </article>
-        <article class="detail-card" data-reveal data-reveal-delay="0">
-          <span class="detail-card__icon"><i data-lucide="wrench" aria-hidden="true"></i></span>
-          <h3>Bathing-area work</h3>
-          <p>Replace or rebuild the shower, tub, or combined bathing zone according to the agreed design and site requirements.</p>
-        </article>
-        <article class="detail-card" data-reveal data-reveal-delay="90">
-          <span class="detail-card__icon"><i data-lucide="paintbrush" aria-hidden="true"></i></span>
-          <h3>Surfaces and cabinetry</h3>
-          <p>Install selected floor and wall finishes, vanity components, countertop, trim, mirrors, and coordinated hardware.</p>
-        </article>
-        <article class="detail-card" data-reveal data-reveal-delay="180">
-          <span class="detail-card__icon"><i data-lucide="badge-check" aria-hidden="true"></i></span>
-          <h3>Final connections and review</h3>
-          <p>Complete fixture, lighting, and accessory installation, then review operation, finish details, and care guidance.</p>
-        </article></div>
+    <section class="project-anatomy" aria-labelledby="project-anatomy-title">
+      <div class="project-anatomy__container">
+        <header class="project-anatomy__header" data-reveal>
+          <div>
+            <p class="project-anatomy__eyebrow">The anatomy of one project</p>
+            <h2 id="project-anatomy-title">One project, coordinated around the details that matter.</h2>
+          </div>
+          <p class="project-anatomy__description">Exact scope varies by room and provider. These are the workstreams commonly discussed when planning this service.</p>
+        </header>
+
+        <div class="project-anatomy__stage">
+          <div class="project-anatomy__visual" data-reveal>
+            <img src="img/generated/project-anatomy-cutaway.webp" alt="Axonometric cutaway showing the coordinated parts of a bathroom remodeling project" width="1402" height="1122" loading="lazy" decoding="async">
+            <div class="project-anatomy__hotspots" aria-label="Project workstreams">
+              <button class="anatomy-hotspot anatomy-hotspot--label-left is-active" type="button" data-step="1" style="--x:31%;--y:31%" aria-label="Existing-room assessment" aria-pressed="true"><span class="anatomy-hotspot__number">01</span><span class="anatomy-hotspot__label">Existing-room assessment</span></button>
+              <button class="anatomy-hotspot anatomy-hotspot--label-left" type="button" data-step="2" style="--x:34%;--y:52%" aria-label="Coordinated scope" aria-pressed="false"><span class="anatomy-hotspot__number">02</span><span class="anatomy-hotspot__label">Coordinated scope</span></button>
+              <button class="anatomy-hotspot anatomy-hotspot--label-right" type="button" data-step="3" style="--x:67%;--y:43%" aria-label="Layout and selection guidance" aria-pressed="false"><span class="anatomy-hotspot__number">03</span><span class="anatomy-hotspot__label">Layout and selection guidance</span></button>
+              <button class="anatomy-hotspot anatomy-hotspot--label-left" type="button" data-step="4" style="--x:38%;--y:69%" aria-label="Bathing-area work" aria-pressed="false"><span class="anatomy-hotspot__number">04</span><span class="anatomy-hotspot__label">Bathing-area work</span></button>
+              <button class="anatomy-hotspot anatomy-hotspot--label-right" type="button" data-step="5" style="--x:73%;--y:62%" aria-label="Surfaces and cabinetry" aria-pressed="false"><span class="anatomy-hotspot__number">05</span><span class="anatomy-hotspot__label">Surfaces and cabinetry</span></button>
+              <button class="anatomy-hotspot anatomy-hotspot--label-right" type="button" data-step="6" style="--x:68%;--y:84%" aria-label="Final connections and review" aria-pressed="false"><span class="anatomy-hotspot__number">06</span><span class="anatomy-hotspot__label">Final connections and review</span></button>
+            </div>
+          </div>
+
+          <aside class="project-anatomy__panel" aria-live="polite" data-reveal>
+            <p class="project-anatomy__panel-phase" data-anatomy-phase>Assess</p>
+            <span class="project-anatomy__panel-icon" data-anatomy-icon aria-hidden="true"><i data-lucide="scan-search"></i></span>
+            <h3 data-anatomy-title>Existing-room assessment</h3>
+            <span class="project-anatomy__panel-rule" aria-hidden="true"></span>
+            <p class="project-anatomy__panel-text" data-anatomy-text>Review the layout, visible conditions, access points, ventilation, lighting, and the location of plumbing and electrical connections.</p>
+          </aside>
+        </div>
+
+        <ol class="project-anatomy__source" data-anatomy-source aria-label="Project workstream details">
+          <li data-step="1" data-number="01" data-phase="Assess" data-icon="scan-search"><h3>Existing-room assessment</h3><p>Review the layout, visible conditions, access points, ventilation, lighting, and the location of plumbing and electrical connections.</p></li>
+          <li data-step="2" data-number="02" data-phase="Define" data-icon="pencil-ruler"><h3>Coordinated scope</h3><p>Define demolition, construction, waterproofing, finish work, fixture installation, and the responsibilities of each trade.</p></li>
+          <li data-step="3" data-number="03" data-phase="Select" data-icon="layers-3"><h3>Layout and selection guidance</h3><p>Compare fixture sizes, storage needs, clearances, surface combinations, and practical alternatives before ordering.</p></li>
+          <li data-step="4" data-number="04" data-phase="Build" data-icon="wrench"><h3>Bathing-area work</h3><p>Replace or rebuild the shower, tub, or combined bathing zone according to the agreed design and site requirements.</p></li>
+          <li data-step="5" data-number="05" data-phase="Finish" data-icon="panels-top-left"><h3>Surfaces and cabinetry</h3><p>Install selected floor and wall finishes, vanity components, countertop, trim, mirrors, and coordinated hardware.</p></li>
+          <li data-step="6" data-number="06" data-phase="Review" data-icon="badge-check"><h3>Final connections and review</h3><p>Complete fixture, lighting, and accessory installation, then review operation, finish details, and care guidance.</p></li>
+        </ol>
       </div>
     </section>
 
@@ -120,30 +127,59 @@
       </div>
     </section>
 
-    <section class="section section--ink">
-      <div class="container">
-        <div class="section-heading"><div><span class="eyebrow eyebrow--accent">Details to confirm</span></div><div><h2>Good questions prevent expensive assumptions.</h2></div></div>
-        <div class="detail-grid">
-        <article class="detail-card" data-reveal data-reveal-delay="0">
-          <span class="detail-card__icon"><i data-lucide="triangle-alert" aria-hidden="true"></i></span>
-          <h3>Hidden conditions</h3>
-          <p>Water damage, outdated wiring, nonstandard framing, or old supply and drain lines may only become visible after demolition. Ask how discoveries and change orders will be documented.</p>
-        </article>
-        <article class="detail-card" data-reveal data-reveal-delay="90">
-          <span class="detail-card__icon"><i data-lucide="clipboard-check" aria-hidden="true"></i></span>
-          <h3>Permits and inspections</h3>
-          <p>Requirements vary by location and scope. Confirm who obtains permits, schedules inspections, and closes them out before work begins.</p>
-        </article>
-        <article class="detail-card" data-reveal data-reveal-delay="180">
-          <span class="detail-card__icon"><i data-lucide="package-check" aria-hidden="true"></i></span>
-          <h3>Product lead times</h3>
-          <p>A special-order vanity, glass panel, tile, or fixture can affect the build sequence. Verify availability and delivery condition before demolition whenever possible.</p>
-        </article>
-        <article class="detail-card" data-reveal data-reveal-delay="0">
-          <span class="detail-card__icon"><i data-lucide="file-check-2" aria-hidden="true"></i></span>
-          <h3>One written scope</h3>
-          <p>The estimate should state labor, materials, allowances, exclusions, debris handling, protection, payment milestones, and warranty terms in clear language.</p>
-        </article></div>
+    <section class="project-questions project-questions--linear" aria-labelledby="project-questions-title">
+      <div class="project-questions__container">
+        <header class="project-questions__header" data-reveal>
+          <p class="project-questions__eyebrow">Plan before you commit</p>
+          <h2 id="project-questions-title">Good questions prevent <em>expensive assumptions.</em></h2>
+          <p class="project-questions__intro">Clear questions early uncover what matters&mdash;saving time, money, and stress throughout your project.</p>
+        </header>
+
+        <div class="project-questions__timeline">
+          <span class="project-questions__timeline-line" aria-hidden="true"></span>
+          <ol class="question-rows" aria-label="Questions to confirm before remodeling">
+            <li class="question-row" data-reveal>
+              <span class="question-row__icon" aria-hidden="true"><i data-lucide="triangle-alert"></i></span>
+              <div class="question-row__content">
+                <h3>Hidden conditions</h3>
+                <p>Water damage, outdated wiring, concealed framing, or old supply and drain lines may only become visible after demolition. Ask how discoveries and change orders will be documented.</p>
+              </div>
+            </li>
+
+            <li class="question-row" data-reveal>
+              <span class="question-row__icon" aria-hidden="true"><i data-lucide="clipboard-check"></i></span>
+              <div class="question-row__content">
+                <h3>Permits and inspections</h3>
+                <p>Requirements vary by location and scope. Confirm who obtains permits, schedules inspections, and closes them out before work begins.</p>
+              </div>
+            </li>
+
+            <li class="question-row" data-reveal>
+              <span class="question-row__icon" aria-hidden="true"><i data-lucide="clock-3"></i></span>
+              <div class="question-row__content">
+                <h3>Product lead times</h3>
+                <p>A specialized vanity, glass panel, tile, or fixture can affect the build sequence. Verify availability and delivery windows before demolition whenever possible.</p>
+              </div>
+            </li>
+          </ol>
+
+          <article class="question-scope" data-reveal>
+            <span class="question-scope__icon" aria-hidden="true"><i data-lucide="file-text"></i></span>
+            <div class="question-scope__content">
+              <h3>One written scope</h3>
+              <p>The estimate should state labor, materials, allowances, exclusions, debris handling, protection, payment milestones, and warranty terms in clear language.</p>
+              <ul class="question-scope__checklist" aria-label="Items to include in a written scope">
+                <li>Labor</li>
+                <li>Materials</li>
+                <li>Allowances</li>
+                <li>Exclusions</li>
+                <li>Protection</li>
+                <li>Payment milestones</li>
+                <li>Warranty terms</li>
+              </ul>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -154,7 +190,7 @@
           <h3 id="faq-guide-title-complete-bathroom-remodel">Bring a clear starting point, not a finished specification.</h3>
           <p>These three notes help a provider understand what matters before the first conversation.</p>
           <ul><li><i data-lucide="scan-search" aria-hidden="true"></i><span><strong>Room &amp; condition</strong><small>Share what exists and what is not working.</small></span></li><li><i data-lucide="goal" aria-hidden="true"></i><span><strong>Priorities</strong><small>Name the outcomes you care about most.</small></span></li><li><i data-lucide="circle-dollar-sign" aria-hidden="true"></i><span><strong>Budget &amp; timing</strong><small>Give realistic boundaries for the match.</small></span></li></ul>
-          <a class="btn btn--light" href="index.html?service=complete-bathroom-remodel#contact">Start your project brief</a>
+          <a class="btn btn--light" href="index.html?service=complete-bathroom-remodel#contact"><span>Start your project brief</span><span class="btn__icon" aria-hidden="true"><i>↗</i></span></a>
         </aside>
         <div class="why-content" data-reveal="right"><span class="eyebrow">Helpful questions, answered</span><h2>Before you request a match.</h2><div class="accordion-list" data-accordion-group>
           <article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="true" aria-controls="faq-complete-bathroom-remodel-0"><span class="accordion-trigger__index">01</span><strong>Can the bathroom stay in the same layout?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel is-open" id="faq-complete-bathroom-remodel-0"><p>Often, yes. Keeping drains and supply lines near their current positions can simplify the project, but a provider still needs to verify fixture dimensions, clearances, and existing conditions.</p></div></article><article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-complete-bathroom-remodel-1"><span class="accordion-trigger__index">02</span><strong>Do I need to choose every finish before work starts?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel" id="faq-complete-bathroom-remodel-1"><p>Major products and anything that affects rough-in dimensions should usually be selected early. Paint, some accessories, and minor decor may be finalized later if they do not hold up the schedule.</p></div></article><article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-complete-bathroom-remodel-2"><span class="accordion-trigger__index">03</span><strong>Will I be without a bathroom during construction?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel" id="faq-complete-bathroom-remodel-2"><p>A bathroom under full renovation is generally unavailable for portions of the project. Ask the provider for a realistic shutdown plan and discuss household access if it is the home’s only bathroom.</p></div></article><article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-complete-bathroom-remodel-3"><span class="accordion-trigger__index">04</span><strong>How do I compare complete-remodel estimates?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel" id="faq-complete-bathroom-remodel-3"><p>Compare line-item scope, product allowances, permit responsibility, waterproofing method, debris removal, likely contingencies, schedule assumptions, and warranty—not only the total price.</p></div></article>
@@ -169,11 +205,14 @@
       </div>
     </section>
 
-    <section class="cta-band"><div class="container cta-band__inner"><div><span class="eyebrow">Ready to make the scope clearer?</span><h2>Tell us about your complete bathroom remodel goals.</h2></div><div class="cta-band__action"><a class="btn" href="index.html?service=complete-bathroom-remodel#contact">Request a free match</a></div></div></section>
+    <section class="cta-band"><div class="container cta-band__inner"><div><span class="eyebrow">Ready to make the scope clearer?</span><h2>Tell us about your complete bathroom remodel goals.</h2></div><div class="cta-band__action"><a class="btn" href="index.html?service=complete-bathroom-remodel#contact"><span>Request a free match</span><span class="btn__icon" aria-hidden="true"><i>↗</i></span></a></div></div></section>
   </main>
   <div data-site-footer></div>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.js" defer></script>
-  <script src="js/site-config.js?v=20260818q" defer></script>
-  <script src="js/main.js?v=20260818q" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+  <script src="js/site-config.js?v=20260818r" defer></script>
+  <script src="js/main.js?v=20260819c" defer></script>
+  <script src="js/animations.js?v=20260819c" defer></script>
 </body>
 </html>
