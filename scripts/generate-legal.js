@@ -115,7 +115,7 @@ function template(page, parsed) {
   <meta name="description" content="${page.description}"><meta name="theme-color" content="#0b0b0a">
   <title>${page.title} | {company}</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/bundle.css?v=20260819j"><link rel="stylesheet" href="css/animations.css?v=20260818d">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/bundle.css?v=20260819p"><link rel="stylesheet" href="css/animations.css?v=20260818d">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a><div data-site-header></div>
@@ -127,7 +127,7 @@ function template(page, parsed) {
     </div></section>
   </main>
   <div data-site-footer></div>
-<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.js" defer></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script><script src="js/site-config.js?v=20260818r" defer></script><script src="js/main.js?v=20260819c" defer></script><script src="js/animations.js?v=20260819c" defer></script>
+<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.js" defer></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script><script src="js/site-config.js?v=20260818r" defer></script><script src="js/main.js?v=20260819d" defer></script><script src="js/animations.js?v=20260819d" defer></script>
 </body>
 </html>`;
 }

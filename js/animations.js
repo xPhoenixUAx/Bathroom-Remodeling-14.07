@@ -455,6 +455,27 @@
     }
   }
 
+  function initializeProjectShapingMotion(conditions) {
+    var section = document.querySelector(".project-shaping");
+    if (!section) return;
+
+    var eyebrow = section.querySelector(".project-shaping__eyebrow");
+    var heading = section.querySelector(".project-shaping__title");
+    var intro = section.querySelector(".project-shaping__intro");
+    var board = section.querySelector(".comparison-board");
+    var image = section.querySelector(".project-plan__image");
+    var activeLayer = section.querySelector(".project-plan__layer.is-active");
+    var timeline = timelineFor(section, "top 92%");
+
+    timeline
+      .from(eyebrow, { autoAlpha: 0, y: 9, duration: 0.32, clearProps: clearMotionProperties() }, 0.02)
+      .from(heading, { autoAlpha: 0, y: 22, clipPath: "inset(0 0 100% 0)", duration: 0.66, clearProps: clearMotionProperties() }, 0.06)
+      .from(intro, { autoAlpha: 0, y: 12, duration: 0.38, clearProps: clearMotionProperties() }, 0.22)
+      .from(board, { autoAlpha: 0, y: conditions.mobile ? 16 : 24, duration: 0.62, ease: MOTION.easeMaterial, clearProps: clearMotionProperties() }, 0.18)
+      .from(image, { autoAlpha: 0, scale: conditions.mobile ? 1 : 1.018, duration: 0.68, ease: MOTION.easeSoft, clearProps: clearMotionProperties() }, 0.3)
+      .from(activeLayer, { autoAlpha: 0, duration: 0.3, clearProps: clearMotionProperties() }, 0.66);
+  }
+
   function initializeServicePageMotion(conditions) {
     var hero = document.querySelector(".page-hero");
     if (!hero) return;
@@ -518,7 +539,7 @@
     }
     window.addEventListener("load", function () { ScrollTrigger.refresh(); }, { once: true });
 
-    all(".matching-process img, .project-anatomy img").forEach(function (image) {
+    all(".matching-process img, .project-anatomy img, .project-shaping img").forEach(function (image) {
       if (typeof image.decode !== "function") return;
       image.decode().then(function () { ScrollTrigger.refresh(); }).catch(function () {});
     });
@@ -584,6 +605,7 @@
         } else if (isServicePage) {
           initializeProjectQuestionsMotion(conditions);
           initializeProjectAnatomyMotion(conditions);
+          initializeProjectShapingMotion(conditions);
           initializeServicePageMotion(conditions);
         } else {
           initializeLegalPageMotion();

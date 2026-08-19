@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/bundle.css?v=20260819j">
+  <link rel="stylesheet" href="css/bundle.css?v=20260819t">
   <link rel="stylesheet" href="css/animations.css?v=20260818d">
 </head>
 <body class="complete-remodel-page">
@@ -96,34 +96,87 @@
       </div>
     </section>
 
-    <section class="section section--white">
-      <div class="container fit-layout">
-        <div data-reveal="left"><span class="eyebrow">Choices to compare</span><h2>Shape the project around your room and priorities.</h2><ul class="fit-list">
-          <li><i data-lucide="arrow-up-right" aria-hidden="true"></i><div><strong>Keep the core layout</strong><p>Refresh the room while leaving major plumbing locations in place, which may reduce complexity and disruption.</p></div></li><li><i data-lucide="arrow-up-right" aria-hidden="true"></i><div><strong>Rebalance the layout</strong><p>Adjust a vanity, shower, tub, or doorway position where structure, plumbing, code, and budget allow.</p></div></li><li><i data-lucide="arrow-up-right" aria-hidden="true"></i><div><strong>Everyday durable finishes</strong><p>Prioritize low-maintenance porcelain tile, practical storage, easy-clean glass, and widely serviceable fixtures.</p></div></li><li><i data-lucide="arrow-up-right" aria-hidden="true"></i><div><strong>Elevated comfort package</strong><p>Consider a larger shower, custom storage, heated flooring, layered lighting, premium hardware, or a freestanding tub.</p></div></li>
-        </ul></div>
-        <div class="fit-visual fit-framework" data-reveal="right" aria-label="Three-part project comparison framework">
-          <div class="fit-framework__top"><span class="eyebrow eyebrow--accent">Decision map</span><span aria-hidden="true">01&mdash;03</span></div>
-          <strong class="fit-framework__word" aria-hidden="true">Compare</strong>
-          <div class="fit-framework__items">
-            <div><i data-lucide="ruler" aria-hidden="true"></i><span><strong>Room</strong><small>Existing dimensions, access, and conditions</small></span></div>
-            <div><i data-lucide="list-checks" aria-hidden="true"></i><span><strong>Priorities</strong><small>Must-haves, preferences, and tradeoffs</small></span></div>
-            <div><i data-lucide="message-square" aria-hidden="true"></i><span><strong>Scope</strong><small>Comparable details and questions in writing</small></span></div>
+    <section class="project-shaping" aria-labelledby="project-shaping-title">
+      <div class="project-shaping__container">
+        <header class="project-shaping__header">
+          <p class="project-shaping__eyebrow">Shape the project</p>
+          <h2 id="project-shaping-title" class="project-shaping__title">Shape the project around<br>your room and priorities.</h2>
+          <p class="project-shaping__intro">Choose an approach to see how layout, priorities, and scope come together in your space.</p>
+        </header>
+
+        <div class="comparison-board" data-active="0">
+          <div class="comparison-board__options" role="tablist" aria-label="Project approaches">
+            <button class="project-option is-active" type="button" role="tab" id="project-tab-0" aria-controls="project-lens" aria-selected="true" tabindex="0" data-index="0" data-key="KEEP" data-reach="Focused change" data-priorities="Efficiency, familiar flow" data-scope="Finish-led renovation" data-layer="keep">
+              <span class="project-option__copy"><span class="project-option__title">Keep the core layout</span><span class="project-option__description">Refresh the room while keeping major plumbing locations in place, which may reduce complexity and disruption.</span></span>
+            </button>
+            <button class="project-option" type="button" role="tab" id="project-tab-1" aria-controls="project-lens" aria-selected="false" tabindex="-1" data-index="1" data-key="REBALANCE" data-reach="Moderate change to structure" data-priorities="Layout flexibility, comfort, storage" data-scope="Moderate construction" data-layer="rebalance">
+              <span class="project-option__copy"><span class="project-option__title">Rebalance the layout</span><span class="project-option__description">Adjust a vanity, shower, tub, or doorway position where structure, plumbing, code, and budget allow.</span></span>
+            </button>
+            <button class="project-option" type="button" role="tab" id="project-tab-2" aria-controls="project-lens" aria-selected="false" tabindex="-1" data-index="2" data-key="ENDURE" data-reach="Surface-level change" data-priorities="Durability, easy care" data-scope="Finish and fixture package" data-layer="endure">
+              <span class="project-option__copy"><span class="project-option__title">Everyday durable finishes</span><span class="project-option__description">Prioritize low-maintenance porcelain tile, practical storage, easy-clean glass, and widely available fixtures.</span></span>
+            </button>
+            <button class="project-option" type="button" role="tab" id="project-tab-3" aria-controls="project-lens" aria-selected="false" tabindex="-1" data-index="3" data-key="ELEVATE" data-reach="Whole-room refinement" data-priorities="Comfort, detail, atmosphere" data-scope="Premium coordinated build" data-layer="elevate">
+              <span class="project-option__copy"><span class="project-option__title">Elevated comfort package</span><span class="project-option__description">Consider a larger shower, custom storage, heated flooring, layered lighting, premium hardware, or a freestanding tub.</span></span>
+            </button>
           </div>
+
+          <div class="comparison-board__connector" aria-hidden="true">
+            <span class="comparison-board__connector-button"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+          </div>
+
+          <article class="comparison-lens" id="project-lens" role="tabpanel" aria-labelledby="project-tab-0" aria-live="polite">
+            <p class="comparison-lens__label">Live comparison lens</p>
+            <p class="comparison-lens__ghost" data-shaping-ghost aria-hidden="true">KEEP</p>
+
+            <div class="comparison-lens__drawing">
+              <div class="project-plan">
+                <img class="project-plan__image" src="img/generated/project-shaping-floorplan.webp" alt="Top-down architectural bathroom plan with a walk-in shower, freestanding tub, double vanity, storage, and toilet" width="1536" height="1024" loading="lazy" decoding="async">
+                <svg class="project-plan__overlay" viewBox="0 0 1536 1024" aria-hidden="true">
+                  <defs>
+                    <pattern id="shaping-overlay-hatch" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V28" class="project-plan__hatch-line"></path></pattern>
+                  </defs>
+                  <g class="project-plan__layer is-active" data-plan-layer="keep">
+                    <circle class="project-plan__ring" cx="291" cy="457" r="52"></circle>
+                    <circle class="project-plan__ring" cx="853" cy="240" r="48"></circle>
+                    <circle class="project-plan__ring" cx="616" cy="780" r="42"></circle>
+                    <circle class="project-plan__ring" cx="858" cy="780" r="42"></circle>
+                    <circle class="project-plan__ring" cx="1170" cy="748" r="46"></circle>
+                  </g>
+                  <g class="project-plan__layer" data-plan-layer="rebalance">
+                    <rect class="project-plan__accent-fill" x="637" y="126" width="455" height="214" rx="108"></rect>
+                    <path class="project-plan__accent-zone" d="M592 158H1110V520H592Z"></path>
+                    <path class="project-plan__accent-line" d="M504 708H1012V874H504"></path>
+                  </g>
+                  <g class="project-plan__layer" data-plan-layer="endure">
+                    <path class="project-plan__accent-pattern" d="M484 337H1111V714H1015V891H484Z" fill="url(#shaping-overlay-hatch)"></path>
+                    <rect class="project-plan__accent-pattern" x="126" y="105" width="342" height="650" fill="url(#shaping-overlay-hatch)"></rect>
+                  </g>
+                  <g class="project-plan__layer" data-plan-layer="elevate">
+                    <rect class="project-plan__accent-fill" x="112" y="88" width="370" height="684" rx="8"></rect>
+                    <rect class="project-plan__accent-fill" x="625" y="112" width="481" height="242" rx="120"></rect>
+                    <path class="project-plan__accent-line" d="M1145 86H1295V405H1145Z"></path>
+                    <g class="project-plan__lighting"><circle cx="596" cy="530" r="17"></circle><circle cx="786" cy="530" r="17"></circle><circle cx="976" cy="530" r="17"></circle><path d="M596 493v-20m0 94v-20m-37-17h-20m94 0h-20M786 493v-20m0 94v-20m-37-17h-20m94 0h-20M976 493v-20m0 94v-20m-37-17h-20m94 0h-20"></path></g>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <dl class="comparison-lens__metrics">
+              <div class="comparison-metric">
+                <dt><span class="comparison-metric__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="10"></circle><circle cx="16" cy="16" r="4"></circle><path d="M16 2v5m0 18v5M2 16h5m18 0h5"></path></svg></span><span>Reach</span></dt>
+                <dd data-field="reach">Focused change</dd>
+              </div>
+              <div class="comparison-metric">
+                <dt><span class="comparison-metric__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 8h22M5 16h22M5 24h22"></path><circle cx="11" cy="8" r="2"></circle><circle cx="21" cy="16" r="2"></circle><circle cx="14" cy="24" r="2"></circle></svg></span><span>Priorities</span></dt>
+                <dd data-field="priorities">Efficiency, familiar flow</dd>
+              </div>
+              <div class="comparison-metric">
+                <dt><span class="comparison-metric__icon" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="6" y="6" width="20" height="20"></rect><path d="M10 10h12v12H10z"></path></svg></span><span>Scope</span></dt>
+                <dd data-field="scope">Finish-led renovation</dd>
+              </div>
+            </dl>
+          </article>
         </div>
-      </div>
-    </section>
-
-    <section class="section section--paper-2">
-      <div class="container">
-        <div class="section-heading"><div><span class="eyebrow">A practical fit</span></div><div><h2>When this service is worth exploring.</h2></div></div>
-        <div class="stats-rail"><div class="stat" data-reveal data-reveal-delay="0"><span class="stat__index">01</span><strong style="font-size:1.45rem;line-height:1.1;margin-top:55px">Bathrooms with several aging finishes or recurring functional problems</strong></div><div class="stat" data-reveal data-reveal-delay="90"><span class="stat__index">02</span><strong style="font-size:1.45rem;line-height:1.1;margin-top:55px">Homeowners who want a consistent design instead of piecemeal updates</strong></div><div class="stat" data-reveal data-reveal-delay="180"><span class="stat__index">03</span><strong style="font-size:1.45rem;line-height:1.1;margin-top:55px">Rooms that need better storage, circulation, lighting, and ventilation together</strong></div><div class="stat" data-reveal data-reveal-delay="270"><span class="stat__index">04</span><strong style="font-size:1.45rem;line-height:1.1;margin-top:55px">Projects being planned before a move-in, resale, or long-term stay</strong></div></div>
-      </div>
-    </section>
-
-    <section class="section section--white">
-      <div class="container">
-        <div class="section-heading"><div><span class="eyebrow">From idea to introduction</span></div><div><h2>A clearer path from first questions to a written scope.</h2></div></div>
-        <div class="service-process"><article class="service-process__item" data-reveal><h3>Share the room and your priorities</h3><p>Describe who uses the bathroom, what is not working, preferred timing, inspiration, and an initial investment range.</p></article><article class="service-process__item" data-reveal><h3>Review conditions on site</h3><p>A local provider can measure the room, inspect accessible conditions, note likely constraints, and discuss what may require specialist review.</p></article><article class="service-process__item" data-reveal><h3>Shape the scope</h3><p>Compare layout approaches, finish levels, allowances, exclusions, and a written sequence before committing to products or construction.</p></article><article class="service-process__item" data-reveal><h3>Confirm selections and schedule</h3><p>Finalize compatible fixtures and materials, permit responsibilities, product lead times, payment milestones, and site-protection plans.</p></article><article class="service-process__item" data-reveal><h3>Build, connect, and walk through</h3><p>The chosen provider manages the agreed work, documents changes, tests installed components, and completes a final project review.</p></article></div>
       </div>
     </section>
 
@@ -193,7 +246,7 @@
           <a class="btn btn--light" href="index.html?service=complete-bathroom-remodel#contact"><span>Start your project brief</span><span class="btn__icon" aria-hidden="true"><i>↗</i></span></a>
         </aside>
         <div class="why-content" data-reveal="right"><span class="eyebrow">Helpful questions, answered</span><h2>Before you request a match.</h2><div class="accordion-list" data-accordion-group>
-          <article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="true" aria-controls="faq-complete-bathroom-remodel-0"><span class="accordion-trigger__index">01</span><strong>Can the bathroom stay in the same layout?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel is-open" id="faq-complete-bathroom-remodel-0"><p>Often, yes. Keeping drains and supply lines near their current positions can simplify the project, but a provider still needs to verify fixture dimensions, clearances, and existing conditions.</p></div></article><article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-complete-bathroom-remodel-1"><span class="accordion-trigger__index">02</span><strong>Do I need to choose every finish before work starts?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel" id="faq-complete-bathroom-remodel-1"><p>Major products and anything that affects rough-in dimensions should usually be selected early. Paint, some accessories, and minor decor may be finalized later if they do not hold up the schedule.</p></div></article><article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-complete-bathroom-remodel-2"><span class="accordion-trigger__index">03</span><strong>Will I be without a bathroom during construction?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel" id="faq-complete-bathroom-remodel-2"><p>A bathroom under full renovation is generally unavailable for portions of the project. Ask the provider for a realistic shutdown plan and discuss household access if it is the home’s only bathroom.</p></div></article><article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-complete-bathroom-remodel-3"><span class="accordion-trigger__index">04</span><strong>How do I compare complete-remodel estimates?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel" id="faq-complete-bathroom-remodel-3"><p>Compare line-item scope, product allowances, permit responsibility, waterproofing method, debris removal, likely contingencies, schedule assumptions, and warranty—not only the total price.</p></div></article>
+          <article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="true" aria-controls="faq-complete-bathroom-remodel-0"><span class="accordion-trigger__index">01</span><strong>Can a complete bathroom remodel be completed in phases?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel is-open" id="faq-complete-bathroom-remodel-0"><p>Sometimes, but demolition, waterproofing, plumbing, electrical, and finish work often depend on one another. Ask which parts need to stay in one sequence and which upgrades can be deferred without creating rework.</p></div></article><article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-complete-bathroom-remodel-1"><span class="accordion-trigger__index">02</span><strong>Who should purchase and receive fixtures and materials?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel" id="faq-complete-bathroom-remodel-1"><p>The arrangement varies by provider. Confirm who verifies compatibility, places orders, inspects deliveries, stores products, and handles damage or returns before anything is purchased.</p></div></article><article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-complete-bathroom-remodel-2"><span class="accordion-trigger__index">03</span><strong>Will I be without a bathroom during construction?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel" id="faq-complete-bathroom-remodel-2"><p>A bathroom under full renovation is generally unavailable for portions of the project. Ask the provider for a realistic shutdown plan and discuss household access if it is the home’s only bathroom.</p></div></article><article class="accordion-item"><button class="accordion-trigger" type="button" data-accordion-trigger aria-expanded="false" aria-controls="faq-complete-bathroom-remodel-3"><span class="accordion-trigger__index">04</span><strong>Can any existing fixtures or finishes be reused?</strong><i data-lucide="plus" aria-hidden="true"></i></button><div class="accordion-panel" id="faq-complete-bathroom-remodel-3"><p>Possibly. A provider should check each item’s condition, dimensions, compatibility, removal risk, and warranty implications before including reuse in the plan.</p></div></article>
         </div></div>
       </div>
     </section>
@@ -201,7 +254,7 @@
     <section class="section section--paper-2">
       <div class="container">
         <div class="section-heading"><div><span class="eyebrow">Related paths</span></div><div><h2>You may also be considering.</h2></div></div>
-        <div class="related-grid related-grid--single"><a class="related-card" href="shower-bathtub-remodeling.html" style="--related-image:url('img/services/walk-in-shower-installation-hero.webp')"><span class="related-card__content"><h3>Shower &amp; Bathtub Remodeling</h3><span><i data-lucide="arrow-up-right" aria-hidden="true"></i></span></span></a></div>
+        <div class="related-grid related-grid--single"><a class="related-card" href="shower-bathtub-remodeling.html" style="--related-image:url('../img/services/walk-in-shower-installation-hero.webp')"><span class="related-card__content"><h3>Shower &amp; Bathtub Remodeling</h3><span><i data-lucide="arrow-up-right" aria-hidden="true"></i></span></span></a></div>
       </div>
     </section>
 
@@ -212,7 +265,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
   <script src="js/site-config.js?v=20260818r" defer></script>
-  <script src="js/main.js?v=20260819c" defer></script>
-  <script src="js/animations.js?v=20260819c" defer></script>
+  <script src="js/main.js?v=20260819f" defer></script>
+  <script src="js/animations.js?v=20260819d" defer></script>
 </body>
 </html>

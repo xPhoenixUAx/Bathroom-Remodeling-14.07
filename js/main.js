@@ -854,6 +854,132 @@
     }, { once: true });
   }
 
+  function initializeProjectShaping() {
+    var section = document.querySelector(".project-shaping");
+    if (!section) return;
+
+    var board = section.querySelector(".comparison-board");
+    var options = section.querySelector(".comparison-board__options");
+    var panel = section.querySelector(".comparison-lens");
+    var ghost = section.querySelector("[data-shaping-ghost]");
+    var reach = section.querySelector('[data-field="reach"]');
+    var priorities = section.querySelector('[data-field="priorities"]');
+    var scope = section.querySelector('[data-field="scope"]');
+    var tabs = Array.prototype.slice.call(section.querySelectorAll(".project-option[role='tab']"));
+    var layers = Array.prototype.slice.call(section.querySelectorAll("[data-plan-layer]"));
+    if (!board || !options || !panel || !ghost || !reach || !priorities || !scope || !tabs.length) return;
+
+    var scenarios = tabs.map(function (tab) {
+      return {
+        key: tab.getAttribute("data-key") || "",
+        reach: tab.getAttribute("data-reach") || "",
+        priorities: tab.getAttribute("data-priorities") || "",
+        scope: tab.getAttribute("data-scope") || "",
+        layer: tab.getAttribute("data-layer") || ""
+      };
+    });
+    var activeIndex = tabs.findIndex(function (tab) { return tab.getAttribute("aria-selected") === "true"; });
+    if (activeIndex < 0) activeIndex = 0;
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var panelTimeline = null;
+    var panelTimeout = 0;
+    var changingTargets = [ghost, reach, priorities, scope];
+
+    function writeScenario(scenario) {
+      ghost.textContent = scenario.key;
+      reach.textContent = scenario.reach;
+      priorities.textContent = scenario.priorities;
+      scope.textContent = scenario.scope;
+      layers.forEach(function (layer) {
+        layer.classList.toggle("is-active", layer.getAttribute("data-plan-layer") === scenario.layer);
+      });
+    }
+
+    function updatePanel(scenario, immediate) {
+      window.clearTimeout(panelTimeout);
+      if (panelTimeline) {
+        panelTimeline.kill();
+        panelTimeline = null;
+      }
+
+      panel.classList.remove("is-changing");
+      if (window.gsap) window.gsap.set(changingTargets, { clearProps: "opacity,transform" });
+
+      if (immediate || reducedMotion) {
+        writeScenario(scenario);
+        panel.removeAttribute("aria-busy");
+        return;
+      }
+
+      panel.setAttribute("aria-busy", "true");
+      if (window.gsap) {
+        panelTimeline = window.gsap.timeline({
+          onComplete: function () {
+            panel.removeAttribute("aria-busy");
+            panelTimeline = null;
+          }
+        });
+        panelTimeline
+          .to(changingTargets, { opacity: 0, y: 7, duration: 0.16, ease: "power2.in" })
+          .add(function () { writeScenario(scenario); })
+          .fromTo(changingTargets, { opacity: 0, y: 9 }, { opacity: 1, y: 0, duration: 0.34, stagger: 0.035, ease: "power3.out", clearProps: "opacity,transform" });
+        return;
+      }
+
+      panel.classList.add("is-changing");
+      panelTimeout = window.setTimeout(function () {
+        writeScenario(scenario);
+        panel.classList.remove("is-changing");
+        panel.removeAttribute("aria-busy");
+      }, 180);
+    }
+
+    function centerMobileTab(tab) {
+      if (!window.matchMedia("(max-width: 767px)").matches) return;
+      var targetLeft = tab.offsetLeft - (options.clientWidth - tab.offsetWidth) / 2;
+      options.scrollTo({ left: Math.max(0, targetLeft), behavior: reducedMotion ? "auto" : "smooth" });
+    }
+
+    function setScenario(index, settings) {
+      settings = settings || {};
+      if (index < 0 || index >= scenarios.length) return;
+      activeIndex = index;
+      board.setAttribute("data-active", String(index));
+      panel.setAttribute("aria-labelledby", tabs[index].id);
+
+      tabs.forEach(function (tab, tabIndex) {
+        var active = tabIndex === index;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+
+      updatePanel(scenarios[index], Boolean(settings.immediate));
+      if (settings.focus) tabs[index].focus();
+      if (settings.center) centerMobileTab(tabs[index]);
+    }
+
+    tabs.forEach(function (tab, index) {
+      tab.addEventListener("click", function () {
+        setScenario(index, { center: true });
+      });
+
+      tab.addEventListener("keydown", function (event) {
+        var nextIndex = null;
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") nextIndex = (activeIndex + 1) % tabs.length;
+        if (event.key === "ArrowUp" || event.key === "ArrowLeft") nextIndex = (activeIndex - 1 + tabs.length) % tabs.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = tabs.length - 1;
+        if (nextIndex === null) return;
+        event.preventDefault();
+        setScenario(nextIndex, { focus: true, center: true });
+      });
+    });
+
+    section.classList.add("is-enhanced");
+    setScenario(activeIndex, { immediate: true, center: true });
+  }
+
   function initializeServiceSelection() {
     var slug = new URLSearchParams(window.location.search).get("service");
     if (!slug) return;
@@ -878,6 +1004,7 @@
     initializeForms();
     initializeTestimonials();
     initializeProjectAnatomy();
+    initializeProjectShaping();
     window.dispatchEvent(new CustomEvent("site:ready"));
   }
 
