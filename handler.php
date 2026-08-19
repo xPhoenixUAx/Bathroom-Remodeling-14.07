@@ -58,7 +58,7 @@ if (!empty($_SERVER['HTTP_ORIGIN']) && !empty($_SERVER['HTTP_HOST'])) {
     }
 }
 
-$configPath = __DIR__ . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'site-config.js';
+$configPath = __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'site-config.js';
 $configSource = is_file($configPath) ? file_get_contents($configPath) : false;
 
 if (!is_string($configSource) || !preg_match(
@@ -136,7 +136,7 @@ $fromEmail = 'no-reply@' . $websiteHost;
 $plainSubject = 'New bathroom project request — ' . ($brandName !== '' ? $brandName : $companyName);
 $subject = function_exists('mb_encode_mimeheader')
     ? mb_encode_mimeheader($plainSubject, 'UTF-8', 'B', "\r\n")
-    : $plainSubject;
+    : '=?UTF-8?B?' . base64_encode($plainSubject) . '?=';
 
 $body = implode("\n", array(
     'New bathroom project request',

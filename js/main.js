@@ -414,6 +414,59 @@
     });
   }
 
+  function initializeAnchorNavigation() {
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function getTarget(hash) {
+      if (!hash || hash === "#") return null;
+      var id = hash.slice(1);
+      try { id = decodeURIComponent(id); } catch (error) { /* use the raw fragment */ }
+      return document.getElementById(id);
+    }
+
+    function scrollToTarget(hash, behavior) {
+      var target = getTarget(hash);
+      if (!target) return false;
+      var header = document.querySelector(".site-header");
+      var headerOffset = header ? header.getBoundingClientRect().height : 0;
+      var top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - headerOffset - 12);
+      if (reducedMotion || behavior === "auto") {
+        var root = document.documentElement;
+        var previousScrollBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = "auto";
+        window.scrollTo(0, top);
+        root.style.scrollBehavior = previousScrollBehavior;
+      } else {
+        window.scrollTo({ top: top, behavior: behavior });
+      }
+      return true;
+    }
+
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest && event.target.closest('a[href*="#"]');
+      if (!link) return;
+      var url;
+      try { url = new URL(link.getAttribute("href"), window.location.href); } catch (error) { return; }
+      if (url.pathname !== window.location.pathname || url.search !== window.location.search || !getTarget(url.hash)) return;
+      event.preventDefault();
+      if (window.location.hash !== url.hash) window.history.pushState(null, "", url.hash);
+      scrollToTarget(url.hash, "smooth");
+    });
+
+    function correctInitialHash() {
+      if (window.location.hash) scrollToTarget(window.location.hash, "auto");
+    }
+
+    window.addEventListener("hashchange", correctInitialHash);
+    window.requestAnimationFrame(correctInitialHash);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(correctInitialHash);
+    if (document.readyState === "complete") {
+      window.setTimeout(correctInitialHash, 0);
+    } else {
+      window.addEventListener("load", function () { window.setTimeout(correctInitialHash, 0); }, { once: true });
+    }
+  }
+
   function initializeAccordions() {
     document.querySelectorAll("[data-accordion-trigger]").forEach(function (trigger) {
       trigger.addEventListener("click", function () {
@@ -1011,6 +1064,7 @@
     hydrateConfig();
     initializeIcons();
     initializeHeader();
+    initializeAnchorNavigation();
     initializeAccordions();
     initializeReveal();
     initializeCounters();
