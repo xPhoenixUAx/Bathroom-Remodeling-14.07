@@ -536,29 +536,44 @@
     var modal = document.querySelector("[data-success-modal]");
     var lastFocusedElement = null;
 
-    function openSuccessModal() {
+    function openFeedbackModal(state, title, message) {
       if (!modal) return;
       lastFocusedElement = document.activeElement;
-      setText("[data-success-title]", siteSettings.formSuccessTitle);
-      setText("[data-success-message]", siteSettings.formSuccessMessage);
-      modal.classList.add("is-open");
-      modal.setAttribute("aria-hidden", "false");
+      setText("[data-success-title]", title);
+      setText("[data-success-message]", message);
+      var label = modal.querySelector("[data-feedback-label]");
+      if (label) label.textContent = state === "error" ? "Submission failed" : "Request received";
+      modal.classList.toggle("is-error", state === "error");
+      modal.removeAttribute("inert");
       modal.inert = false;
+      modal.setAttribute("aria-hidden", "false");
+      modal.classList.add("is-open");
       document.body.classList.add("modal-open");
       var close = modal.querySelector("[data-modal-close]");
       if (close) window.setTimeout(function () { close.focus(); }, 50);
+      window.dispatchEvent(new CustomEvent(state === "error" ? "site:form-error" : "site:form-success"));
+    }
+
+    function openSuccessModal() {
+      openFeedbackModal("success", siteSettings.formSuccessTitle, siteSettings.formSuccessMessage);
+    }
+
+    function openErrorModal(message) {
+      openFeedbackModal("error", "Something went wrong", message);
     }
 
     function closeSuccessModal() {
       if (!modal) return;
       modal.classList.remove("is-open");
       modal.setAttribute("aria-hidden", "true");
+      modal.setAttribute("inert", "");
       modal.inert = true;
       document.body.classList.remove("modal-open");
       if (lastFocusedElement && typeof lastFocusedElement.focus === "function") lastFocusedElement.focus();
     }
 
     if (modal) {
+      modal.setAttribute("inert", "");
       modal.inert = true;
       modal.querySelectorAll("[data-modal-close]").forEach(function (button) {
         button.addEventListener("click", closeSuccessModal);
@@ -665,7 +680,7 @@
           headers: { Accept: "application/json" }
         }).then(function (response) {
           return response.json().catch(function () { return {}; }).then(function (payload) {
-            if (!response.ok || payload.success === false) {
+            if (!response.ok || payload.success !== true) {
               throw new Error(payload.message || "Submission rejected");
             }
             return payload;
@@ -675,12 +690,12 @@
           status.classList.add("is-success");
           status.textContent = "Request sent successfully.";
           openSuccessModal();
-        }).catch(function (error) {
+        }).catch(function () {
+          var failureMessage = "We could not send your request right now. Please try again or email " + contactEmail + ".";
           status.classList.add("is-error");
-          status.textContent = error && error.message && error.message !== "Submission rejected"
-            ? error.message
-            : "We could not send the request right now. Please email " + contactEmail + ".";
-          status.focus();
+          status.textContent = failureMessage;
+          if (modal) openErrorModal(failureMessage);
+          else status.focus();
         }).then(function () {
           if (submit) {
             submit.disabled = false;
