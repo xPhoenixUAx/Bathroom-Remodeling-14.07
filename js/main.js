@@ -6,6 +6,7 @@
   var company = config.company || {};
   var brand = config.brand || {};
   var contact = config.contact || {};
+  var disclaimer = config.disclaimer || {};
   var companyName = company.name || "Roomwell Bath Network";
   var companyLegalName = company.legalName || companyName;
   var companyId = company.id || "";
@@ -14,7 +15,6 @@
   var contactEmail = contact.email || "";
   var privacyEmail = contact.privacyEmail || contactEmail;
   var website = contact.website || "";
-  var operatorNames = companyName + (companyLegalName !== companyName ? " and " + companyLegalName : "");
   var siteSettings = {
     formEndpoint: "handler.php",
     privacyRequestUrl: "index.html#contact",
@@ -26,9 +26,9 @@
     footerCompanyLine: companyId ? companyName + " · ID " + companyId : companyName,
     footerTextPrimary: "A homeowner-first bathroom remodeling directory built to make early project planning simpler.",
     footerTextSecondary: brandName + " helps you explore project types and request introductions to independent local providers; " + brandName + " does not perform remodeling work.",
-    disclaimerShort: brandName + " is a free matching resource, not a remodeling contractor. Providers in our network are independent businesses.",
-    disclaimerFull: "Disclaimer: This site is a free service that assists homeowners in connecting with local bathroom remodeling service providers. " + operatorNames + " do not perform, supervise, or guarantee remodeling work. All contractors and providers are independent, and this site does not warrant or guarantee estimates, availability, workmanship, project outcomes, or services performed. It is the homeowner’s responsibility to verify that any hired provider carries the licenses, insurance, permits, certifications, and other credentials required for the work. All persons depicted in a photo or video are actors or models and are not contractors or providers listed on this site.",
-    footerDisclaimer: brandName + " is an informational and referral resource. Contractor availability, pricing, qualifications, and project terms are determined independently between the homeowner and the selected provider.",
+    disclaimerShort: disclaimer.short || "",
+    disclaimerFull: disclaimer.full || "",
+    footerDisclaimer: disclaimer.footer || "",
     copyrightLine: "© " + new Date().getFullYear() + " " + companyLegalName + ". All rights reserved.",
     ctaPrimary: "Request a Free Match",
     ctaSecondary: "Explore Services",
@@ -63,6 +63,7 @@
     header: "[data-site-header]",
     footer: "[data-site-footer]"
   };
+  var buttonArrowMarkup = '<svg class="button-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg>';
 
   function escapeHtml(value) {
     return String(value == null ? "" : value)
@@ -143,7 +144,7 @@
       '<div class="nav-dropdown-wrap">',
       '<a class="nav-trigger' + (isCurrent("services") ? " is-current" : "") + '" href="' + (isCurrent("home") ? "#services" : "index.html#services") + '" aria-haspopup="true" aria-expanded="false" aria-controls="services-mega" data-nav-section="services">Services <i data-lucide="chevron-down" aria-hidden="true"></i></a>',
       '<div class="services-mega" id="services-mega">',
-      '<div class="services-mega__top"><strong>Choose a project guide</strong><a class="icon-link" href="index.html#services">Service overview <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div>',
+      '<div class="services-mega__top"><strong>Choose a project guide</strong><a class="editorial-link editorial-link--light" href="index.html#services"><span class="editorial-link__label">Service overview</span><span class="editorial-link__rule" aria-hidden="true"></span>' + buttonArrowMarkup + '</a></div>',
       '<div class="services-mega__grid">' + groupedServicesMarkup("desktop") + "</div>",
       "</div></div>",
       '<a class="nav-link" href="index.html#about" data-nav-section="about">About</a>',
@@ -151,14 +152,14 @@
       "</nav>",
       '<div class="header-actions">',
       '<a class="header-email" data-email-link href="#"><i data-lucide="mail" aria-hidden="true"></i><span data-email-text></span></a>',
-      '<a class="header-cta" href="index.html#contact"><span data-cta-primary></span><span class="header-cta__icon" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span></a>',
+      '<a class="roomwell-header-cta" href="index.html#contact"><span data-cta-primary></span><span class="roomwell-header-cta__ring" aria-hidden="true">' + buttonArrowMarkup + '</span></a>',
       '<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation"><i data-lucide="menu" aria-hidden="true"></i></button>',
       "</div></div></header>",
       '<div class="mobile-menu" id="mobile-menu" aria-hidden="true">',
       '<div class="mobile-menu__inner">',
       '<a class="mobile-menu__link" href="index.html" data-nav-section="home">Home <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>',
       '<button class="mobile-services-toggle" type="button" aria-expanded="false" aria-controls="mobile-services-panel" data-nav-section="services">Services <i data-lucide="chevron-down" aria-hidden="true"></i></button>',
-      '<div class="mobile-services-panel" id="mobile-services-panel" aria-hidden="true">' + groupedServicesMarkup("mobile") + '<a class="icon-link" href="index.html#services">Service overview <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div>',
+      '<div class="mobile-services-panel" id="mobile-services-panel" aria-hidden="true">' + groupedServicesMarkup("mobile") + '<a class="editorial-link editorial-link--light" href="index.html#services"><span class="editorial-link__label">Service overview</span><span class="editorial-link__rule" aria-hidden="true"></span>' + buttonArrowMarkup + '</a></div>',
       '<a class="mobile-menu__link" href="index.html#about" data-nav-section="about">About <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>',
       '<a class="mobile-menu__link" href="index.html#contact" data-nav-section="contact">Contact <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>',
       '<div class="mobile-menu__contact">',
@@ -179,8 +180,7 @@
       '<a class="brand" href="index.html">' + brandMarkup() + "</a>",
       '<p data-footer-text-primary></p>',
       '<p class="footer-brand__secondary" data-footer-text-secondary></p>',
-      '<p class="footer-brand__note" data-disclaimer-short></p>',
-      '<a class="icon-link" href="index.html#contact">Start your request <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>',
+      '<a class="roomwell-button roomwell-button--light" href="index.html#contact"><span class="roomwell-button__label">Start your request</span><span class="roomwell-button__corner" aria-hidden="true"></span>' + buttonArrowMarkup + '</a>',
       "</div>",
       '<div class="footer-col footer-col--services"><h3>Services</h3><ul class="footer-links">',
       featured.map(function (service) {
@@ -515,7 +515,7 @@
           entry.target.classList.add("is-visible");
           observer.unobserve(entry.target);
         });
-      }, { threshold: 0.12, rootMargin: "0px 0px -45px" });
+      }, { threshold: 0.01, rootMargin: "0px 0px 12% 0px" });
       elements.forEach(function (element) { observer.observe(element); });
     }, 0);
   }
@@ -671,6 +671,19 @@
         form.setAttribute("method", "post");
       }
 
+      form.querySelectorAll("textarea").forEach(function (textarea) {
+        function resizeTextarea() {
+          textarea.style.height = "auto";
+          textarea.style.height = textarea.scrollHeight + "px";
+        }
+
+        textarea.addEventListener("input", resizeTextarea);
+        form.addEventListener("reset", function () {
+          window.requestAnimationFrame(resizeTextarea);
+        });
+        resizeTextarea();
+      });
+
       form.querySelectorAll("[required]").forEach(function (field) {
         var error = form.querySelector('[data-error-for="' + field.name + '"]');
         if (error) {
@@ -721,6 +734,8 @@
         var originalLabel = submitLabel ? submitLabel.textContent : submit ? submit.textContent : "";
         if (submit) {
           submit.disabled = true;
+          submit.classList.add("is-loading");
+          submit.setAttribute("aria-busy", "true");
           if (submitLabel) submitLabel.textContent = siteSettings.formSending;
           else submit.textContent = siteSettings.formSending;
         }
@@ -752,6 +767,8 @@
         }).then(function () {
           if (submit) {
             submit.disabled = false;
+            submit.classList.remove("is-loading");
+            submit.removeAttribute("aria-busy");
             if (submitLabel) submitLabel.textContent = originalLabel;
             else submit.textContent = originalLabel;
           }

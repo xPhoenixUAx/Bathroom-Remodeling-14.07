@@ -5,6 +5,7 @@
   var reducedMotion = false;
   var mm = null;
   var matchingObserver = null;
+  var viewportFallbackObservers = [];
   var gsap = null;
   var ScrollTrigger = null;
 
@@ -42,8 +43,28 @@
     return "transform,opacity,visibility,clipPath,willChange";
   }
 
+  function addViewportFallback(trigger, animation) {
+    if (!trigger || !animation || !("IntersectionObserver" in window)) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+
+        window.requestAnimationFrame(function () {
+          if (!document.documentElement.classList.contains("has-gsap")) return;
+          if (animation.progress() <= 0.001 && !animation.isActive()) animation.play(0);
+        });
+
+        observer.disconnect();
+      });
+    }, { threshold: 0.01, rootMargin: "0px 0px 12% 0px" });
+
+    observer.observe(trigger);
+    viewportFallbackObservers.push(observer);
+  }
+
   function timelineFor(section, start) {
-    return gsap.timeline({
+    var timeline = gsap.timeline({
       defaults: { ease: MOTION.ease },
       scrollTrigger: {
         trigger: section,
@@ -51,6 +72,8 @@
         once: true
       }
     });
+    addViewportFallback(section, timeline);
+    return timeline;
   }
 
   function waitForFonts(callback) {
@@ -368,7 +391,7 @@
     var footer = document.querySelector(".site-footer");
     if (!footer) return;
     var columns = all(".footer-brand, .footer-col", footer);
-    gsap.from(columns, {
+    var tween = gsap.from(columns, {
       autoAlpha: 0,
       y: 18,
       duration: 0.56,
@@ -377,6 +400,7 @@
       clearProps: clearMotionProperties(),
       scrollTrigger: { trigger: footer, start: "top 97%", once: true }
     });
+    addViewportFallback(footer, tween);
   }
 
   function initializeGenericReveals() {
@@ -393,7 +417,8 @@
         clearProps: clearMotionProperties(),
         scrollTrigger: { trigger: element, start: "top 93%", once: true }
       };
-      gsap.from(element, vars);
+      var tween = gsap.from(element, vars);
+      addViewportFallback(element, tween);
     });
   }
 
@@ -522,7 +547,7 @@
 
     var toc = document.querySelector(".legal-toc");
     if (toc) {
-      gsap.from(toc, {
+      var tween = gsap.from(toc, {
         autoAlpha: 0,
         y: 18,
         duration: 0.58,
@@ -530,6 +555,7 @@
         clearProps: clearMotionProperties(),
         scrollTrigger: { trigger: toc, start: "top 90%", once: true }
       });
+      addViewportFallback(toc, tween);
     }
   }
 
@@ -546,6 +572,8 @@
   }
 
   function destroyAnimations(resetInitialization) {
+    viewportFallbackObservers.forEach(function (observer) { observer.disconnect(); });
+    viewportFallbackObservers = [];
     if (matchingObserver) {
       matchingObserver.disconnect();
       matchingObserver = null;
